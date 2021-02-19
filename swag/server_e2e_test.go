@@ -113,7 +113,7 @@ func TestOrder(t *testing.T) {
 		}
 	}
 
-	err = page.FindByName("__privateStripeFrame4").SwitchToFrame()
+	err = page.First("iframe").SwitchToFrame()
 	if err != nil {
 		t.Fatalf("SwitchToFrame() err = %v; want nil", err)
 	}

@@ -28,7 +28,7 @@ func (tdb *tempDB) Close() error {
 }
 
 const (
-	defaultURL = "postgres://postgres@127.0.0.1:5432/swag_dev?sslmode=disable"
+	defaultURL = "postgres://postgres:VMware1!@127.0.0.1:5432/swag_dev?sslmode=disable"
 )
 
 func init() {
@@ -226,4 +226,12 @@ func (db *Database) GetOrderViaPayCus(payCustomerID string) (*Order, error) {
 		return nil, err
 	}
 	return &ord, nil
+}
+
+func (db *Database) ConfirmOrder(orderID int, addressRaw, paymentChargeID string) error {
+	statement := `UPDATE orders
+	SET adr_raw = $2, pay_charge_id = $3
+	WHERE id = $1`
+	_, err := db.sqlDB.Exec(statement, orderID, addressRaw, paymentChargeID)
+	return err
 }
